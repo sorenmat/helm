@@ -23,6 +23,8 @@ import "hapi/release/info.proto";
 import "hapi/release/test_run.proto";
 import "hapi/release/status.proto";
 import "hapi/version/version.proto";
+import "google/protobuf/empty.proto";
+
 
 option go_package = "services";
 
@@ -83,8 +85,14 @@ service ReleaseService {
     // RunReleaseTest executes the tests defined of a named release
     rpc RunReleaseTest(TestReleaseRequest) returns (stream TestReleaseResponse) {
     }
+
+	// PingTiller sends a test/ping signal to Tiller to ensure that it's up
+	rpc PingTiller(google.protobuf.Empty) returns(google.protobuf.Empty) {}
 }
 
+message Void
+{
+}
 // ListReleasesRequest requests a list of releases.
 //
 // Releases can be retrieved in chunks by setting limit and offset.

@@ -173,7 +173,7 @@ func filterList(rels []*release.Release) []*release.Release {
 	idx := map[string]int32{}
 
 	for _, r := range rels {
-		name, version := r.GetName(), r.GetVersion()
+		name, version := r.Name, r.Version
 		if max, ok := idx[name]; ok {
 			// check if we have a greater version already
 			if max > version {
@@ -185,7 +185,7 @@ func filterList(rels []*release.Release) []*release.Release {
 
 	uniq := make([]*release.Release, 0, len(idx))
 	for _, r := range rels {
-		if idx[r.GetName()] == r.GetVersion() {
+		if idx[r.Name] == r.Version {
 			uniq = append(uniq, r)
 		}
 	}

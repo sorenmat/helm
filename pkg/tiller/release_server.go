@@ -24,11 +24,11 @@ import (
 	"regexp"
 	"strings"
 
+	"github.com/golang/protobuf/ptypes/empty"
 	"github.com/technosophos/moniker"
+	ctx "golang.org/x/net/context"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/client-go/discovery"
-	"k8s.io/kubernetes/pkg/client/clientset_generated/internalclientset"
-
 	"k8s.io/helm/pkg/chartutil"
 	"k8s.io/helm/pkg/hooks"
 	"k8s.io/helm/pkg/proto/hapi/chart"
@@ -38,6 +38,7 @@ import (
 	"k8s.io/helm/pkg/tiller/environment"
 	"k8s.io/helm/pkg/timeconv"
 	"k8s.io/helm/pkg/version"
+	"k8s.io/kubernetes/pkg/client/clientset_generated/internalclientset"
 )
 
 // releaseNameMaxLen is the maximum length of a release name.
@@ -419,4 +420,8 @@ func hookShouldBeDeleted(hook *release.Hook, policy string) bool {
 		}
 	}
 	return false
+}
+
+func (s *ReleaseServer) PingTiller(context ctx.Context, void *empty.Empty) (*empty.Empty, error) {
+	return nil, nil
 }

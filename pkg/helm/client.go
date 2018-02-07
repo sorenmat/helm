@@ -483,5 +483,6 @@ func (h *Client) ping(ctx context.Context) error {
 	defer c.Close()
 
 	rlc := rls.NewReleaseServiceClient(c)
-	return rlc.PingTiller(ctx)
+	_, err = rlc.PingTiller(ctx, nil)
+	return err
 }
