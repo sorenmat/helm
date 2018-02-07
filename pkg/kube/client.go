@@ -672,6 +672,31 @@ func (c *Client) WaitAndGetCompletedPodPhase(namespace string, reader io.Reader,
 	return status, nil
 }
 
+// GetLogs returns the logs from a pod
+func (c *Client) GetLogs(namespace string, reader io.Reader) (string, error) {
+	infos, err := c.Build(namespace, reader)
+	if err != nil {
+		return "", err
+	}
+	info := infos[0]
+	kube, err := c.KubernetesClientSet()
+	if err != nil {
+		return "", err
+	}
+	req := kube.CoreV1().Pods(info.Namespace).GetLogs(info.Name, &v1.PodLogOptions{})
+	rc, err := req.Stream()
+	if err != nil {
+		return "", err
+	}
+	b := new(bytes.Buffer)
+	_, err = io.Copy(b, rc)
+	if err != nil {
+		return "", err
+	}
+
+	return b.String(), nil
+}
+
 func (c *Client) watchPodUntilComplete(timeout time.Duration, info *resource.Info) error {
 	w, err := resource.NewHelper(info.Client, info.Mapping).WatchSingle(info.Namespace, info.Name, info.ResourceVersion)
 	if err != nil {

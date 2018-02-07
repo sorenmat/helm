@@ -56,6 +56,11 @@ func (env *Environment) getTestPodStatus(test *test) (core.PodPhase, error) {
 		log.Printf("Error getting status for pod %s: %s", test.result.Name, err)
 		test.result.Info = err.Error()
 		test.result.Status = release.TestRun_UNKNOWN
+		log, logserr := env.KubeClient.GetLogs(env.Namespace, b)
+		if err != nil {
+			return status, fmt.Errorf("%v: %v", err, logserr)
+		}
+		test.result.Log = log
 		return status, err
 	}
 

@@ -42,6 +42,7 @@ type test struct {
 	manifest        string
 	expectedSuccess bool
 	result          *release.TestRun
+	log             string
 }
 
 // NewTestSuite takes a release object and returns a TestSuite object with test definitions
