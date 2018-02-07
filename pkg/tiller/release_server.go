@@ -422,6 +422,8 @@ func hookShouldBeDeleted(hook *release.Hook, policy string) bool {
 	return false
 }
 
+// PingTiller is a simple ping function on the Tiller component, the response is an nil error
+// if the ping is successful
 func (s *ReleaseServer) PingTiller(context ctx.Context, void *empty.Empty) (*empty.Empty, error) {
 	return nil, nil
 }
